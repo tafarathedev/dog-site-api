@@ -21,7 +21,7 @@ app.use(cors({
 }))
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
-    secret: process.env.JWT_SECRET,
+    secret: "thisismyseceret",
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
     resave: false 
