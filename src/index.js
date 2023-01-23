@@ -1,5 +1,6 @@
 import express from 'express'
 import './server/server.js'
+import cors from  'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import UserRouter from './routes/UserRouter.js'
@@ -13,6 +14,10 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(express.json())
+app.use(cors({
+    origin: '*',
+    optionsSuccessStatus:200
+}))
 app.use("/api/user/", UserRouter)
 
 
