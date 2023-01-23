@@ -5,11 +5,11 @@ import jwt from  'jsonwebtoken'
 import dotenv from  'dotenv'
 dotenv.config()
 const userSchema = new mongoose.Schema({
-    first_name:{
+    firstName:{
        type:String,
        trim:true       
 
-    },last_name:{
+    },lastName:{
         type:String,
         trim:true
     },

@@ -10,7 +10,7 @@ import multer from 'multer'
 router.post("/create", async(req,res)=>{
     const { first_name , last_name , email , password} = req.body
   try {
-    const user = new User({first_name,last_name,email, password})
+    const user = new User({firstName,lastName,email, password})
     const token = await user.setAuthToken()
     const saveUser = await user.save()
     res.cookie("authCookies" , token ,{
@@ -22,11 +22,17 @@ router.post("/create", async(req,res)=>{
     .json({
       success:true,
       user:saveUser,
+      message:"User Account Created Successfully",
+
       token
     })
        
   } catch (error) {
-     res.json(error.message)
+   
+     res.status(400).json({
+      success:false,
+      message:error.message
+     })
   }
     
 })
