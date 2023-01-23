@@ -4,6 +4,7 @@ import cors from  'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import UserRouter from './routes/UserRouter.js'
+import sessions from 'express-session'
 import bodyParser from 'body-parser'
 dotenv.config()
 const app = express() 
@@ -18,6 +19,13 @@ app.use(cors({
     origin: '*',
     optionsSuccessStatus:200
 }))
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(sessions({
+    secret: process.env.JWT_SECRET,
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false 
+}));
 app.use("/api/user/", UserRouter)
 
 
