@@ -2,16 +2,18 @@ import express from 'express'
 import auth from '../middleware/auth.js'
 const router = express.Router()
 import User from '../models/UserModel.js'
+import {sendWelcomeEmail} from '../email/account.js'
 import sharp from 'sharp' 
 import multer from 'multer'
 
 
 //create user account
 router.post("/create", async(req,res)=>{
-    const { firstName , lastName , email , password} = req.body
+    const { email , password , firstName , lastName , agree} = req.body
   try {
-    const user = new User({firstName, lastName, email, password})
+    const user = new User({email, password , firstName, lastName , agree})
     const token = await user.setAuthToken()
+    sendWelcomeEmail(user.email , user.firstName , user.lastName )
     const saveUser = await user.save()
     res.cookie("authCookies" , token ,{
       secure:true,
@@ -38,8 +40,9 @@ router.post("/create", async(req,res)=>{
 
 //login user
 router.post("/login", async(req,res)=>{
+  const {email , password} = req.body
   try {
-    const user = await User.findByCredentials(req.body.email, req.body.password);
+    const user = await User.findByCredentials(email,password);
     const token = await user.setAuthToken()
     await user.save()
     res.cookie("authCookies" , {
@@ -53,7 +56,7 @@ router.post("/login", async(req,res)=>{
 }
 }) 
 //logout from current mobile
-router.post('/me/logout', auth, async (req, res) => {
+router.post('/logout', auth, async (req, res) => {
   try {
       req.user.tokens = req.user.tokens.filter((token) => {
           return token.token !== req.token
@@ -66,7 +69,7 @@ router.post('/me/logout', auth, async (req, res) => {
       maxAge:90000
     }).status().json({
       success:true,
-     message :"Logout Successfuls"
+     message :"Logout Successful"
     })
   } catch (e) {
       res.status(500).send()

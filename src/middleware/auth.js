@@ -10,7 +10,7 @@ dotenv.config()
 const auth = async (req, res, next) => {
     try {
         const token = req.cookies.authCookies
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET,{expiresIn:"24h"})
         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
 
         if (!user) {
