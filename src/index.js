@@ -23,7 +23,8 @@ const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
     secret: "thisismyseceret",
     saveUninitialized:true,
-    cookie: { maxAge: oneDay },
+    cookie: { 
+        maxAge: oneDay },
     resave: false 
 }));
 app.use("/api/user/", UserRouter)

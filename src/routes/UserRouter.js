@@ -50,19 +50,22 @@ router.post("/login", async(req,res)=>{
       httpOnly:true,
       maxAge:90000
       
-    }).json({success:true, user , token});
+    }).json({success:true, user , message:"Logged in Successfully", token});
 } catch (e) {
     res.status(404).json(e.message);
 }
 }) 
+
+
 //logout from current mobile
 router.post('/logout', auth, async (req, res) => {
-  try {
+   
+   try {
       req.user.tokens = req.user.tokens.filter((token) => {
           return token.token !== req.token
       })
       await req.user.save()
-
+        console.log(req.user.tokens)
     res.cookie("authCookies", {
       httpOnly:true,
       secure:true,
@@ -73,7 +76,7 @@ router.post('/logout', auth, async (req, res) => {
     })
   } catch (e) {
       res.status(500).send()
-    }
+    } 
   })
   
   //logout of all sessions 
