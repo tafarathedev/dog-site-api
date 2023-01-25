@@ -7,19 +7,23 @@ dotenv.config()
 const userSchema = new mongoose.Schema({
     firstName:{
        type:String,
+       lowercase:true,
        trim:true       
 
     },lastName:{
         type:String,
+        lowercase:true,
         trim:true
     },
     age:{
         type:Number,
         trim:true,
        
+       
     },
     password:{
         type:String,
+        
         validate(value) {
             if (value.toLowerCase().includes('password')) {
                 throw new Error(`password can not be ${value}`)
@@ -33,6 +37,8 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type:String,
+        lowercase:true,
+        required:true,  
         unique:true,
         validate(value){
         if( !validator.isEmail(value)){
