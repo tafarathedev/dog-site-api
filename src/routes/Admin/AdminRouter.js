@@ -1,21 +1,22 @@
 import express from 'express'
-import auth from '../middleware/auth.js'
+import adminAuth from '../../middleware/adminAuth.js'
 const router = express.Router()
-import User from '../models/UserModel.js'
-import {sendWelcomeEmail} from '../email/account.js'
+import {sendWelcomeEmail} from '../../email/account.js'
 import sharp from 'sharp' 
 import multer from 'multer'
+import AdminUser from '../../models/Admin/AdminModel.js'
+
 
 
 //create user account
-router.post("/create", async(req,res)=>{
+router.post("/admin/create", async(req,res)=>{
     const { email , password , firstName , lastName , agree} = req.body
   try {
-    const user = new User({email, password , firstName, lastName , agree})
-    const token = await user.setAuthToken()
-    sendWelcomeEmail(user.email )
-    const saveUser = await user.save()
-    res.cookie("authCookies" , token ,{
+    const admin = new AdminUser({email, password , firstName, lastName , agree })
+    const token = await admin.setAdminAuthToken()
+    sendWelcomeEmail(admin.email )
+    const saveAdmin = await admin.save()
+    res.cookie("adminAuthCookies" , token ,{
       secure:true,
       httpOnly:true,
       maxAge:90000  
@@ -23,7 +24,7 @@ router.post("/create", async(req,res)=>{
     .status(200)
     .json({
       success:true,
-      user:saveUser,
+      admin:saveAdmin,
       message:"User Account Created Successfully",
       token
     })
@@ -32,7 +33,7 @@ router.post("/create", async(req,res)=>{
    
      res.status(400).json({
       success:false,
-      message:error
+      message:error.message
      })
   }
     
@@ -42,15 +43,15 @@ router.post("/create", async(req,res)=>{
 router.post("/login", async(req,res)=>{
   const {email , password} = req.body
   try {
-    const user = await User.findByCredentials(email,password);
-    const token = await user.setAuthToken()
-    await user.save()
-    res.cookie("authCookies" , {
+    const admin = await AdminUser.findByCredentials(email,password);
+    const token = await admin.setAdminAuthToken()
+    await admin.save()
+    res.cookie("adminAuthCookies" , {
       secure:true,
       httpOnly:true,
       maxAge:90000
       
-    }).json({success:true, user , message:"Logged in Successfully", token});
+    }).json({success:true, admin , message:"Logged in Successfully", token});
 } catch (e) {
     res.status(400).send({
       success:false,
@@ -61,7 +62,7 @@ router.post("/login", async(req,res)=>{
 
 
 //logout from current mobile
-router.post('/logout', auth, async (req, res) => {
+router.post('/logout', adminAuth, async (req, res) => {
    
    try {
       req.user.tokens = req.user.tokens.filter((token) => {
@@ -69,7 +70,7 @@ router.post('/logout', auth, async (req, res) => {
       })
       await req.user.save()
         console.log(req.user.tokens)
-    res.cookie("authCookies", {
+    res.cookie("adminAuthCookies", {
       httpOnly:true,
       secure:true,
       maxAge:90000
@@ -83,7 +84,7 @@ router.post('/logout', auth, async (req, res) => {
   })
   
   //logout of all sessions 
-router.post('/me/logoutAll', auth, async (req, res) => {
+router.post('/me/logoutAll', adminAuth, async (req, res) => {
   try {
       req.user.tokens = []
       await req.user.save()
@@ -93,23 +94,23 @@ router.post('/me/logoutAll', auth, async (req, res) => {
   }
 })
 //view personal account
-router.get("/me/profile",auth, async(req, res) => {
+router.get("/me/profile",adminAuth, async(req, res) => {
   
   try {
-      const user = await User.findOne({id:req.user.id})   
+      const user = await AdminUser.findOne({id:req.user.id})   
     
   } catch (e) {
       res.status(402).json(e.message)
   }
 })
 //delete your personal account
-router.delete("delete/me",auth ,async(req,res)=>{
-   const user = req.user.remove()
+router.delete("delete/me",adminAuth ,async(req,res)=>{
+   const admin = req.user.remove()
    try {
-      await user.save()
+      await admin.save()
      res.status(200).json({
       message:"account deleted successfully",
-      user
+      admin
      })
     
    } catch (error) {
@@ -119,7 +120,7 @@ router.delete("delete/me",auth ,async(req,res)=>{
 
  //uqpdate personal account information
  
-router.patch('/me/upload', auth, async (req, res) => {
+router.patch('/me/upload', adminAuth, async (req, res) => {
   const updates = Object.keys(req.body)
   const allowedUpdates = ['first_name','last_name', 'email', 'password' , 'age' ]
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -152,7 +153,7 @@ const upload = multer({
 })
  
 //post picture
-router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+router.post('/users/me/avatar', adminAuth, upload.single('avatar'), async (req, res) => {
   const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
   req.user.avatar = buffer
   await req.user.save()
@@ -162,7 +163,7 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
 })
 
  //delete profile picture
-router.delete('/users/me/avatar', auth, async (req, res) => {
+router.delete('/users/me/avatar', adminAuth, async (req, res) => {
   req.user.avatar = undefined
   await req.user.save()
   res.send()
@@ -171,14 +172,14 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
 //view profile picture
 router.get('/users/:id/avatar', async (req, res) => {
   try {
-      const user = await User.findById(req.params.id)
+      const admin = await AdminUser.findById(req.params.id)
 
-      if (!user || !user.avatar) {
+      if (!admin || !admin.avatar) {
           throw new Error()
       }
 
       res.set('Content-Type', 'image/png')
-      res.send(user.avatar)
+      res.send(admin.avatar)
   } catch (e) {
       res.status(404).send()
   }
@@ -186,5 +187,8 @@ router.get('/users/:id/avatar', async (req, res) => {
 
 
 })
+
+
+// more user controls here
 
 export default router

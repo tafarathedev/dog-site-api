@@ -4,6 +4,8 @@ import cors from  'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import UserRouter from './routes/UserRouter.js'
+import ProductRouter from './routes/ProductRouter.js'
+import AdminUser from './routes/Admin/AdminRouter.js'
 import sessions from 'express-session'
 import bodyParser from 'body-parser'
 dotenv.config()
@@ -27,7 +29,9 @@ app.use(sessions({
         maxAge: oneDay },
     resave: false 
 }));
-app.use("/api/user/", UserRouter)
+app.use( UserRouter)
+app.use( ProductRouter)
+app.use(AdminUser)
 
 
 
