@@ -8,11 +8,14 @@ import multer from 'multer'
 
 
 //create user account
-router.post("/create", async(req,res)=>{
+router.post("/create_user", async(req,res)=>{
     const { email , password , firstName , lastName , agree} = req.body
   try {
     const user = new User({email, password , firstName, lastName , agree})
     const token = await user.setAuthToken()
+    if(!user){
+      res.status(401).redirect('/create_user')
+    }
     sendWelcomeEmail(user.email )
     const saveUser = await user.save()
     res.cookie("authCookies" , token ,{

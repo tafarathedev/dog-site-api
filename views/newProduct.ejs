@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>Document</title>
+</head>
+<body class="bg-gray-800 justify-center align-center relative ">
+    
+        <div class="w-full max-w-xs   z-50 justify-center relative mx-auto w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full" >
+            <h1 class="dark:text-white text-center text-xl">Add New Product</h1>
+            
+            <form method="POST" action="/products" class="bg-gray-900 py-6 px-6">
+                <!-- product name -->
+                <div>
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                         Name
+                      </label>
+                  <input type="text" class="shadow-sm bg-gray-50  text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" id="name" name="name" placeholder="Product Name">
+                  
+                </div>
+               <!--  product Image  -->
+                <div >
+                  <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
+                  <input type="text" class="shadow-sm bg-gray-50   text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" id="image" name="image" placeholder="Product Image Link">
+                </div>
+                <!-- product Price -->
+                <div>
+                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                    <input type="number" class="shadow-sm bg-gray-50  text-gray-900 text-smfocus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" id="price" name="price" placeholder="Product Price">
+                  </div>
+                  <!-- product Description -->
+                  <div class="mb-3">
+                    <label for="desc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                    <textarea class="shadow-sm bg-gray-50   text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" name="desc" id="desc" cols="30" rows="5"></textarea>
+                  </div>
+               
+                  <!-- button for button -->
+                  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add New Product</button>
+              </form>
+        </div>
+        
+    
+</body>
+</html>

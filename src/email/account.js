@@ -19,7 +19,7 @@ const sendWelcomeEmail = async(email) => {
   const mailOptions = {
     from: "LegacyKennels.org" ,
     to: `${email}`,
-    subject: 'Thanks for joining in!',
+    subject: 'You have Created an account',
     text: `Welcome to Legacy Kennels. Let me know how you get along with the app.`
   };
 // send mail with defined transport object
