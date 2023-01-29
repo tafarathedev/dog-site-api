@@ -14,7 +14,7 @@ router.post("/create_user", async(req,res)=>{
     const user = new User({email, password , firstName, lastName , agree})
     const token = await user.setAuthToken()
     if(!user){
-      res.status(401).redirect('/create_user')
+      res.status(401).redirect('/createUser')
     }
     sendWelcomeEmail(user.email )
     const saveUser = await user.save()

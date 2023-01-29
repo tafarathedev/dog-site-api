@@ -3,20 +3,29 @@ import mongoose from 'mongoose'
 import dotenv from  'dotenv'
 dotenv.config()
 
-
-//schema here 
-const BlogSchema = new mongoose.Schema({
-     title:{
+//mongoose schema type here
+const dogSchema = new mongoose.Schema({
+     name:{
         type:String ,
         trim:true
+     },breed:{
+      type:String,
+      trim:true
      },
      image:{
      type:String,
      trim:true
+     },color:{
+
      },
-     article:{
-       type:String,
-       trim:true
+     desc:{
+        type:String,
+        trim:true,
+        
+     },
+     price:{
+        type:Number,
+        trim:true
      },
      owner:{
         type:mongoose.Schema.Types.ObjectId,
@@ -30,15 +39,10 @@ const BlogSchema = new mongoose.Schema({
    }
   
 })
-//shema virtual
-BlogSchema.virtual('blogs', {
-  ref: 'Blog',
-  localField: '_id',
-  foreignField: 'owner',
-});
 
 
 
-const Blog = mongoose.model("Blog" , BlogSchema)
 
-export default Blog
+const Dog = mongoose.model("Dog" , dogSchema)
+
+export default Dog

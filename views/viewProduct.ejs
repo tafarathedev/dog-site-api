@@ -8,17 +8,62 @@
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <title>Document</title>
 </head>
-<body class="bg-gray-900">
-    
-    
+<body class=" mx-auto ">
 
-          <div >
-         <p class="text-white dark:text-white"> <%= name %>  </p>
-         lorem ipsum
-       </div>
+  <div class="container mx-auto bg-gray-200">
+
+    <!-- header start -->
+    <div class="bg-white py-1 sm:py-3 lg:py-5">
+      <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+        <div class="bg-gray-100 rounded-lg px-4 py-3 md:py-4 lg:py-8 mx-auto">
+          <p class="text-indigo-500 lg:text-lg font-semibold text-center mb-2 md:mb-3 select-none">Introducing</p>
+  
+          <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6 select-none">Products List</h2>
+          
+        <p class="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto select-none">This is a List of all the products</p>
+      </div>
+    </div>
+  </div>
+  <!-- header end -->
+  
+    <!-- header start -->
+    <div class="grid gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-4 justify-center align-center mx-auto">
+      
+      <% product.forEach(prod => { %>
+        
+        <div class="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl mx-auto">
+          <a href=>
+            <img src=<%- prod.image %> alt="Product" class="h-80 w-72 object-cover rounded-t-xl" />
+        <div class="px-4 py-3 w-72">
+          <span class="text-gray-400 mr-3 uppercase text-xs">Brand</span>
+          <p class="text-lg font-bold text-black truncate block capitalize"><%- prod.name %> </p>
+          <div class="flex items-center">
+            <p class="text-lg font-semibold text-black cursor-auhref my-3">K<%- prod.price %></p>
+            <del>
+              <p class="text-sm text-gray-600 cursor-auto ml-2">K<%-Math.floor((20/100) * prod.price)%></p>
+            </del>
+             <form class="ml-auto" action="/cart">
+               <div ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bag-plus" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z" />
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
+              </svg></div>
+             </form>
+          </div>
+        </div>
+      </a>
+    </div>  
+    
+    <% }) %>
+  </div>
        
-
-
+</div>
+  
+<footer> 
+  <div class=" justify-center align-center mx-auto w-full h-3/2 bg-gray-800 py-8">
+    things inside
+  </div>
+  </footer>
+    
 
 </body>
 </html>

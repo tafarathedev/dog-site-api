@@ -7,6 +7,7 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import UserRouter from './routes/UserRouter.js'
 import ProductRouter from './routes/ProductRouter.js'
+import DogsRouter from './routes/DogsRouter.js'
 import AdminUser from './routes/Admin/api/AdminRouter.js'
 import pageRouter from './routes/Admin/site/admin.router.js'
 import sessions from 'express-session'
@@ -41,6 +42,7 @@ app.use(sessions({
 // router routes
 app.use(UserRouter)
 app.use(ProductRouter)
+app.use(DogsRouter)
 app.use(AdminUser)
 app.use("/site",pageRouter)
 
